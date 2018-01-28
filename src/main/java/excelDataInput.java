@@ -1,3 +1,4 @@
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import util.ApplicationUtils;
@@ -20,8 +21,8 @@ public class excelDataInput {
 
     private String squInput;
 
-    public String getSquInput() {
-        return squInput;
+    public String getSquInput(int column, int row ) throws IOException {
+        return readExcel(column,row );
     }
 
     public void setSquInput(String squInput) {
@@ -30,12 +31,13 @@ public class excelDataInput {
 
 
 
-    private Properties properties = ApplicationUtils.readAppConfig();
-    private String inputPath = properties.getProperty(INPUTPATH);
+    Properties properties = ApplicationUtils.readAppConfig();
+    String inputPath = properties.getProperty(INPUTPATH);
+
 
     private File inputPositions = new File(inputPath);
 
-    private String readExcel(String column, String row ) throws IOException {
+    private String readExcel(int column, int row ) throws IOException {
         //Read file
         FileInputStream inputStream = new FileInputStream(inputPositions);
 
@@ -45,13 +47,12 @@ public class excelDataInput {
         //Get the first sheet from the workbook
         HSSFSheet sheet = workbook.getSheetAt(0);
 
+        HSSFCell cell = sheet.getRow(row).getCell(column);
 
+        inputStream.close();
 
-
-
-        return squInput;
+        return this.squInput = cell.getStringCellValue();
     }
-
 
 
 }

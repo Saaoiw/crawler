@@ -12,12 +12,13 @@ public final class ApplicationUtils {
     public static Properties readAppConfig() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Properties properties = new Properties();
-        try (InputStream is = loader.getResourceAsStream("config/application.properties" )) {
+        try (InputStream is = loader.getResourceAsStream("H:/src/crawler/src/main/resources/config/application.properties")) {
+            properties.load(is);
         } catch (IOException e) {
+            //TODO: write to log
             e.printStackTrace();
         }
-
-        return  properties;
+        return properties;
     }
 
 }
